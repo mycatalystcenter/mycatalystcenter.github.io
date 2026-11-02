@@ -21,6 +21,7 @@ A static documentation portal for engineers learning and using the Cisco Catalys
 .
 ├── index.html
 ├── assets/
+│   ├── catalyst-center-logo.png
 │   ├── favicon.svg
 │   ├── docs-preview.jpg
 │   ├── content-catalog.js
