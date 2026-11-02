@@ -1,0 +1,687 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A practical documentation portal for Cisco Catalyst Center automation with Ansible, workflow manager modules, the Python SDK, examples, and curated learning resources.">
+  <meta name="theme-color" content="#07111f">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; script-src 'self'; script-src-attr 'none'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; upgrade-insecure-requests">
+  <title>Catalyst Center Ansible Field Guide</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <aside class="sidebar" aria-label="Documentation navigation">
+    <a class="brand" href="#introduction" aria-label="Catalyst Center Ansible Field Guide home">
+      <span class="brand-mark" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </span>
+      <span class="brand-copy">
+        <strong>Catalyst Center</strong>
+        <small>Ansible Field Guide</small>
+      </span>
+    </a>
+
+    <nav class="sidebar-nav">
+      <div class="nav-group">
+        <p class="nav-group-label">Start here</p>
+        <a href="#introduction" aria-current="page">
+          <span class="nav-icon" aria-hidden="true">01</span>
+          Introduction
+        </a>
+        <a href="#whats-new">
+          <span class="nav-icon" aria-hidden="true">02</span>
+          What&rsquo;s new
+          <span class="nav-badge">2.14</span>
+        </a>
+        <a href="#installation">
+          <span class="nav-icon" aria-hidden="true">03</span>
+          Installation
+        </a>
+        <a href="#first-workflow">
+          <span class="nav-icon" aria-hidden="true">04</span>
+          First workflow
+        </a>
+      </div>
+
+      <div class="nav-group">
+        <p class="nav-group-label">Automation library</p>
+        <a href="#workflow-managers">
+          <span class="nav-icon" aria-hidden="true">05</span>
+          Workflow managers
+          <span class="nav-badge">39</span>
+        </a>
+        <a href="#api-modules">
+          <span class="nav-icon" aria-hidden="true">06</span>
+          All modules
+          <span class="nav-badge">1.5K</span>
+        </a>
+        <a href="#roles-and-playbooks">
+          <span class="nav-icon" aria-hidden="true">07</span>
+          Roles &amp; playbooks
+          <span class="nav-badge">142</span>
+        </a>
+        <a href="#compatibility">
+          <span class="nav-icon" aria-hidden="true">08</span>
+          Compatibility
+        </a>
+      </div>
+
+      <div class="nav-group">
+        <p class="nav-group-label">Learn the stack</p>
+        <a href="#foundations">
+          <span class="nav-icon" aria-hidden="true">09</span>
+          Ansible &amp; Catalyst Center
+        </a>
+        <a href="#resources">
+          <span class="nav-icon" aria-hidden="true">10</span>
+          Whitepapers &amp; videos
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-note">
+      <span class="status-dot" aria-hidden="true"></span>
+      <div>
+        <strong>Collection v2.14.0</strong>
+        <small>Updated 21 Oct 2026</small>
+      </div>
+    </div>
+  </aside>
+
+  <div class="page">
+    <header class="topbar">
+      <p><span>DOCS</span> / CISCO.CATALYSTCENTER</p>
+      <div class="topbar-actions">
+        <a href="https://galaxy.ansible.com/ui/repo/published/cisco/catalystcenter/" target="_blank" rel="noopener noreferrer">Ansible Galaxy <span aria-hidden="true">↗</span></a>
+        <a class="topbar-button" href="https://github.com/cisco-en-programmability/catalystcenter-ansible" target="_blank" rel="noopener noreferrer">View on GitHub <span aria-hidden="true">↗</span></a>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <section class="hero" id="introduction">
+        <div class="hero-glow" aria-hidden="true"></div>
+        <div class="content-shell hero-grid">
+          <div class="hero-copy">
+            <p class="eyebrow"><span></span> Practical automation for network operators</p>
+            <h1>Catalyst Center automation, <em>explained.</em></h1>
+            <p class="hero-lede">
+              Learn how Ansible, the <code>cisco.catalystcenter</code> collection, the Python SDK,
+              and Catalyst Center APIs fit together. Start with one working workflow, then explore
+              the full automation library.
+            </p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="#installation">Install the collection <span aria-hidden="true">↓</span></a>
+              <a class="button button-secondary" href="#workflow-managers">Explore workflow managers</a>
+            </div>
+            <div class="release-line">
+              <span>Latest release</span>
+              <strong>v2.14.0</strong>
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/releases/tag/v2.14.0" target="_blank" rel="noopener noreferrer">Release notes <span aria-hidden="true">↗</span></a>
+            </div>
+          </div>
+
+          <div class="workflow-visual" aria-label="Automation flow from playbook to managed network">
+            <div class="visual-header">
+              <span>AUTOMATION PATH</span>
+              <span class="visual-live"><i></i> DECLARATIVE</span>
+            </div>
+            <ol class="flow-stack">
+              <li>
+                <span class="flow-number">01</span>
+                <div>
+                  <strong>Ansible playbook</strong>
+                  <small>Readable YAML intent</small>
+                </div>
+                <code>site.yml</code>
+              </li>
+              <li>
+                <span class="flow-number">02</span>
+                <div>
+                  <strong>Workflow manager</strong>
+                  <small>Validation + orchestration</small>
+                </div>
+                <code>state: merged</code>
+              </li>
+              <li>
+                <span class="flow-number">03</span>
+                <div>
+                  <strong>Python SDK</strong>
+                  <small>API client and task handling</small>
+                </div>
+                <code>SDK</code>
+              </li>
+              <li>
+                <span class="flow-number">04</span>
+                <div>
+                  <strong>Catalyst Center</strong>
+                  <small>Intent API + managed network</small>
+                </div>
+                <span class="flow-result">✓ desired state</span>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <section class="metrics" aria-label="Collection snapshot">
+        <div class="content-shell metrics-grid">
+          <div><strong>39</strong><span>workflow managers</span></div>
+          <div><strong>71</strong><span>reusable roles</span></div>
+          <div><strong>71</strong><span>CVP projects</span></div>
+          <div><strong>1,551</strong><span>collection modules</span></div>
+        </div>
+      </section>
+
+      <section class="docs-section" id="foundations">
+        <div class="content-shell article-shell">
+          <div class="section-intro">
+            <p class="section-kicker">INTRODUCTION</p>
+            <h2>Four parts, one automation path.</h2>
+            <p>
+              Each layer has a clear job. Ansible runs the playbook, the collection packages Cisco
+              automation content, the SDK handles API communication, and Catalyst Center applies the
+              requested change to the network.
+            </p>
+          </div>
+
+          <div class="foundation-grid">
+            <a class="foundation-card" href="https://docs.ansible.com/projects/ansible/latest/getting_started/index.html" target="_blank" rel="noopener noreferrer">
+              <span class="foundation-index">01</span>
+              <div class="foundation-symbol ansible-symbol" aria-hidden="true">A</div>
+              <h3>Ansible</h3>
+              <p>The automation engine. It reads an inventory and runs human-readable YAML playbooks.</p>
+              <span class="text-link">Read the Ansible introduction <b>↗</b></span>
+            </a>
+            <a class="foundation-card" href="https://developer.cisco.com/docs/catalyst-center/" target="_blank" rel="noopener noreferrer">
+              <span class="foundation-index">02</span>
+              <div class="foundation-symbol catalyst-symbol" aria-hidden="true">C</div>
+              <h3>Catalyst Center</h3>
+              <p>The controller. It exposes intent APIs for design, onboarding, provisioning, assurance, and operations.</p>
+              <span class="text-link">Explore the platform APIs <b>↗</b></span>
+            </a>
+            <a class="foundation-card" href="https://github.com/cisco-en-programmability/catalystcentersdk" target="_blank" rel="noopener noreferrer">
+              <span class="foundation-index">03</span>
+              <div class="foundation-symbol sdk-symbol" aria-hidden="true">PY</div>
+              <h3>Catalyst Center SDK</h3>
+              <p>The Python client. It maps controller APIs to Python methods and handles authentication and responses.</p>
+              <span class="text-link">Open the SDK repository <b>↗</b></span>
+            </a>
+            <a class="foundation-card" href="https://github.com/cisco-en-programmability/catalystcenter-ansible" target="_blank" rel="noopener noreferrer">
+              <span class="foundation-index">04</span>
+              <div class="foundation-symbol collection-symbol" aria-hidden="true">YML</div>
+              <h3>Ansible collection</h3>
+              <p>The content layer. It provides API modules, workflow managers, roles, examples, and validated playbooks.</p>
+              <span class="text-link">Browse the collection source <b>↗</b></span>
+            </a>
+          </div>
+
+          <div class="concept-callout">
+            <div class="callout-mark" aria-hidden="true">i</div>
+            <div>
+              <strong>Why workflow managers?</strong>
+              <p>
+                A direct API module usually represents one controller operation. A workflow manager coordinates
+                the validation, dependencies, API calls, asynchronous tasks, and verification needed for a complete outcome.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="docs-section section-tinted" id="whats-new">
+        <div class="content-shell article-shell">
+          <div class="section-intro section-intro-row">
+            <div>
+              <p class="section-kicker">WHAT&rsquo;S NEW</p>
+              <h2>Current collection snapshot.</h2>
+            </div>
+            <a class="section-link" href="https://github.com/cisco-en-programmability/catalystcenter-ansible/releases" target="_blank" rel="noopener noreferrer">All releases <span aria-hidden="true">↗</span></a>
+          </div>
+
+          <div class="update-grid">
+            <article class="update-card update-card-featured">
+              <div class="update-meta"><span>RELEASE</span><time datetime="2026-10-21">21 OCT 2026</time></div>
+              <h3>v2.14.0 adds telemetry support</h3>
+              <p>The latest published collection release introduces telemetry support and rolls forward the development branch.</p>
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/releases/tag/v2.14.0" target="_blank" rel="noopener noreferrer">Read the release notes <span aria-hidden="true">↗</span></a>
+            </article>
+            <article class="update-card">
+              <div class="update-meta"><span>CONTENT</span><span>71 ROLES</span></div>
+              <h3>Use a role for less boilerplate</h3>
+              <p>Workflow manager and config generator roles package sensible defaults around the corresponding modules.</p>
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/ROLES_GUIDE.md" target="_blank" rel="noopener noreferrer">Open the roles guide <span aria-hidden="true">↗</span></a>
+            </article>
+            <article class="update-card">
+              <div class="update-meta"><span>VALIDATED</span><span>71 CVPs</span></div>
+              <h3>Start from validated content</h3>
+              <p>The CVP library includes 42 validated playbooks and 29 config generators with examples, schemas, documentation, and templates.</p>
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/tree/main/cvp" target="_blank" rel="noopener noreferrer">Browse the CVP library <span aria-hidden="true">↗</span></a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="docs-section" id="installation">
+        <div class="content-shell article-shell">
+          <div class="section-intro">
+            <p class="section-kicker">INSTALLATION</p>
+            <h2>Prepare a clean automation environment.</h2>
+            <p>
+              The collection currently requires Python 3.10&ndash;3.14, <code>ansible-core</code> 2.16 or later,
+              and a compatible <code>catalystcentersdk</code> release.
+            </p>
+          </div>
+
+          <ol class="install-steps">
+            <li>
+              <div class="step-marker">1</div>
+              <div class="step-content">
+                <h3>Create an isolated Python environment</h3>
+                <p>Keep the automation dependencies separate from your system Python packages.</p>
+                <div class="code-window">
+                  <div class="code-title"><span>TERMINAL</span><span>CREATE ENVIRONMENT</span></div>
+                  <pre><code>python3 -m venv .venv
+source .venv/bin/activate
+python3 -m pip install --upgrade pip</code></pre>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="step-marker">2</div>
+              <div class="step-content">
+                <h3>Install Ansible, the SDK, and the collection</h3>
+                <p>Check the compatibility matrix before pinning versions for production use.</p>
+                <div class="code-window">
+                  <div class="code-title"><span>TERMINAL</span><span>INSTALL DEPENDENCIES</span></div>
+                  <pre><code>python3 -m pip install "ansible-core&gt;=2.16" catalystcentersdk
+ansible-galaxy collection install cisco.catalystcenter</code></pre>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="step-marker">3</div>
+              <div class="step-content">
+                <h3>Provide controller settings securely</h3>
+                <p>Environment variables keep credentials out of the playbook. Use Ansible Vault or your CI secret store for shared automation.</p>
+                <div class="code-window">
+                  <div class="code-title"><span>TERMINAL</span><span>SESSION VARIABLES</span></div>
+                  <pre><code>export CATALYSTCENTER_HOST="https://catalyst-center.example.com"
+export CATALYSTCENTER_USERNAME="your-username"
+export CATALYSTCENTER_PASSWORD="your-password"
+export CATALYSTCENTER_VERSION="3.2.3.0"
+export CATALYSTCENTER_VERIFY="true"</code></pre>
+                </div>
+                <p class="code-note"><span aria-hidden="true">✓</span> Keep TLS verification enabled and never commit real credentials.</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="docs-section section-deep" id="first-workflow">
+        <div class="content-shell article-shell">
+          <div class="section-intro section-intro-light">
+            <p class="section-kicker">FIRST WORKFLOW</p>
+            <h2>Create an area with one task.</h2>
+            <p>
+              This example uses <code>site_workflow_manager</code> to ensure an area exists under
+              the global site hierarchy. Re-running it should preserve the same desired state.
+            </p>
+          </div>
+
+          <div class="example-layout">
+            <div class="example-notes">
+              <div class="example-note">
+                <span>01</span>
+                <div><strong>Create the inventory</strong><p>Use the collection&rsquo;s expected host group.</p></div>
+              </div>
+              <div class="mini-code"><code>[catalystcenter_servers]
+catalystcenter_server</code></div>
+              <div class="example-note">
+                <span>02</span>
+                <div><strong>Declare the outcome</strong><p><code>state: merged</code> creates or updates the area.</p></div>
+              </div>
+              <div class="example-note">
+                <span>03</span>
+                <div><strong>Verify the result</strong><p><code>config_verify: true</code> checks the resulting controller state.</p></div>
+              </div>
+            </div>
+
+            <div class="code-window code-window-large">
+              <div class="code-title"><span>SITE.YML</span><span>YAML</span></div>
+              <pre><code>---
+- name: Build the Catalyst Center site hierarchy
+  hosts: catalystcenter_servers
+  gather_facts: false
+
+  tasks:
+    - name: Ensure the Bangalore area exists
+      cisco.catalystcenter.site_workflow_manager:
+        state: merged
+        config_verify: true
+        config:
+          - type: area
+            site:
+              area:
+                name: Bangalore
+                parent_name: Global</code></pre>
+            </div>
+          </div>
+
+          <div class="run-command">
+            <span class="terminal-prompt" aria-hidden="true">$</span>
+            <code>ansible-playbook -i hosts site.yml</code>
+            <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/site_workflow_manager.py" target="_blank" rel="noopener noreferrer">Module reference <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+      </section>
+
+      <section class="docs-section" id="workflow-managers">
+        <div class="content-shell article-shell">
+          <div class="section-intro section-intro-row">
+            <div>
+              <p class="section-kicker">WORKFLOW MANAGERS</p>
+              <h2>Automate complete operational outcomes.</h2>
+              <p>Start with the domain you operate, then follow the module&rsquo;s documentation and examples.</p>
+            </div>
+            <span class="section-count">39<span>MANAGERS</span></span>
+          </div>
+
+          <div class="manager-grid">
+            <a class="manager-card" href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/site_workflow_manager.py" target="_blank" rel="noopener noreferrer">
+              <span class="manager-domain">FOUNDATION</span>
+              <h3>Site hierarchy</h3>
+              <code>site_workflow_manager</code>
+              <p>Manage areas, buildings, floors, dimensions, RF models, and floor maps.</p>
+              <span class="card-arrow" aria-hidden="true">↗</span>
+            </a>
+            <a class="manager-card" href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/inventory_workflow_manager.py" target="_blank" rel="noopener noreferrer">
+              <span class="manager-domain">ONBOARDING</span>
+              <h3>Device inventory</h3>
+              <code>inventory_workflow_manager</code>
+              <p>Discover, add, update, and manage network devices through one workflow.</p>
+              <span class="card-arrow" aria-hidden="true">↗</span>
+            </a>
+            <a class="manager-card" href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/network_settings_workflow_manager.py" target="_blank" rel="noopener noreferrer">
+              <span class="manager-domain">DESIGN</span>
+              <h3>Network settings</h3>
+              <code>network_settings_workflow_manager</code>
+              <p>Apply global or site-scoped network services and device credentials.</p>
+              <span class="card-arrow" aria-hidden="true">↗</span>
+            </a>
+            <a class="manager-card" href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/sda_fabric_virtual_networks_workflow_manager.py" target="_blank" rel="noopener noreferrer">
+              <span class="manager-domain">SDA</span>
+              <h3>Fabric virtual networks</h3>
+              <code>sda_fabric_virtual_networks_workflow_manager</code>
+              <p>Manage virtual networks and their fabric relationships declaratively.</p>
+              <span class="card-arrow" aria-hidden="true">↗</span>
+            </a>
+            <a class="manager-card" href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/swim_workflow_manager.py" target="_blank" rel="noopener noreferrer">
+              <span class="manager-domain">LIFECYCLE</span>
+              <h3>Software images</h3>
+              <code>swim_workflow_manager</code>
+              <p>Coordinate image import, distribution, activation, and compliance workflows.</p>
+              <span class="card-arrow" aria-hidden="true">↗</span>
+            </a>
+            <a class="manager-card" href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/assurance_issue_workflow_manager.py" target="_blank" rel="noopener noreferrer">
+              <span class="manager-domain">ASSURANCE</span>
+              <h3>Assurance issues</h3>
+              <code>assurance_issue_workflow_manager</code>
+              <p>Read, update, resolve, or ignore issues through repeatable operations.</p>
+              <span class="card-arrow" aria-hidden="true">↗</span>
+            </a>
+          </div>
+
+          <div class="catalog-search-block">
+            <label class="catalog-search-label" for="workflow-search">Search the workflow library</label>
+            <div class="catalog-search-row" role="search" aria-label="Workflow manager search">
+              <div class="catalog-search-field">
+                <span class="catalog-search-icon" aria-hidden="true">⌕</span>
+                <input id="workflow-search" type="search" maxlength="100" autocomplete="off" spellcheck="false" placeholder="Try site, inventory, SDA, assurance…" aria-controls="workflow-catalog-list" aria-describedby="workflow-search-help workflow-result-count">
+              </div>
+              <button class="catalog-search-button" id="workflow-search-button" type="button">Search workflows</button>
+              <button class="catalog-clear-button" id="workflow-search-clear" type="button" hidden>Clear</button>
+            </div>
+            <div class="catalog-search-meta">
+              <span id="workflow-search-help">Search by workflow name or operational domain.</span>
+              <span id="workflow-result-count" role="status" aria-live="polite" aria-atomic="true">39 workflow managers</span>
+            </div>
+          </div>
+
+          <details class="catalog-panel" id="workflow-catalog" open>
+            <summary>
+              <span>Browse all 39 workflow managers</span>
+              <small><span class="when-closed">Open catalog</span><span class="when-open">Close catalog</span></small>
+            </summary>
+            <div class="module-list-grid" id="workflow-catalog-list">
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/accesspoint_workflow_manager.py" target="_blank" rel="noopener noreferrer"><code>accesspoint_workflow_manager</code><span>↗</span></a>
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/accesspoint_location_workflow_manager.py" target="_blank" rel="noopener noreferrer"><code>accesspoint_location_workflow_manager</code><span>↗</span></a>
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/application_policy_workflow_manager.py" target="_blank" rel="noopener noreferrer"><code>application_policy_workflow_manager</code><span>↗</span></a>
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/assurance_device_health_score_settings_workflow_manager.py" target="_blank" rel="noopener noreferrer"><code>assurance_device_health_score_settings_workflow_manager</code><span>↗</span></a>
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/assurance_icap_settings_workflow_manager.py" target="_blank" rel="noopener noreferrer"><code>assurance_icap_settings_workflow_manager</code><span>↗</span></a>
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/assurance_issue_workflow_manager.py" target="_blank" rel="noopener noreferrer"><code>assurance_issue_workflow_manager</code><span>↗</span></a>
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/backup_and_restore_workflow_manager.py" target="_blank" rel="noopener noreferrer"><code>backup_and_restore_workflow_manager</code><span>↗</span></a>
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/device_configs_backup_workflow_manager.py" target="_blank" rel="noopener noreferrer"><code>device_configs_backup_workflow_manager</code><span>↗</span></a>
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/device_credential_workflow_manager.py" target="_blank" rel="noopener noreferrer"><code>device_credential_workflow_manager</code><span>↗</span></a>
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/discovery_workflow_manager.py" target="_blank" rel="noopener noreferrer"><code>discovery_workflow_manager</code><span>↗</span></a>
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/events_and_notifications_workflow_manager.py" target="_blank" rel="noopener noreferrer"><code>events_and_notifications_workflow_manager</code><span>↗</span></a>
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/fabric_devices_info_workflow_manager.py" target="_blank" rel="noopener noreferrer"><code>fabric_devices_info_workflow_manager</code><span>↗</span></a>
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/inventory_workflow_manager.py" target="_blank" rel="noopener noreferrer"><code>inventory_workflow_manager</code><span>↗</span></a>
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/ise_radius_integration_workflow_manager.py" target="_blank" rel="noopener noreferrer"><code>ise_radius_integration_workflow_manager</code><span>↗</span></a>
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/lan_automation_workflow_manager.py" target="_blank" rel="noopener noreferrer"><code>lan_automation_workflow_manager</code><span>↗</span></a>
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/network_compliance_workflow_manager.py" target="_blank" rel="noopener noreferrer"><code>network_compliance_workflow_manager</code><span>↗</span></a>
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/network_devices_info_workflow_manager.py" target="_blank" rel="noopener noreferrer"><code>network_devices_info_workflow_manager</code><span>↗</span></a>
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/network_profile_switching_workflow_manager.py" target="_blank" rel="noopener noreferrer"><code>network_profile_switching_workflow_manager</code><span>↗</span></a>
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/network_profile_wireless_workflow_manager.py" target="_blank" rel="noopener noreferrer"><code>network_profile_wireless_workflow_manager</code><span>↗</span></a>
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/network_settings_workflow_manager.py" target="_blank" rel="noopener noreferrer"><code>network_settings_workflow_manager</code><span>↗</span></a>
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/path_trace_workflow_manager.py" target="_blank" rel="noopener noreferrer"><code>path_trace_workflow_manager</code><span>↗</span></a>
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/pnp_workflow_manager.py" target="_blank" rel="noopener noreferrer"><code>pnp_workflow_manager</code><span>↗</span></a>
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/provision_workflow_manager.py" target="_blank" rel="noopener noreferrer"><code>provision_workflow_manager</code><span>↗</span></a>
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/reports_workflow_manager.py" target="_blank" rel="noopener noreferrer"><code>reports_workflow_manager</code><span>↗</span></a>
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/rma_workflow_manager.py" target="_blank" rel="noopener noreferrer"><code>rma_workflow_manager</code><span>↗</span></a>
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/sda_extranet_policies_workflow_manager.py" target="_blank" rel="noopener noreferrer"><code>sda_extranet_policies_workflow_manager</code><span>↗</span></a>
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/sda_fabric_devices_workflow_manager.py" target="_blank" rel="noopener noreferrer"><code>sda_fabric_devices_workflow_manager</code><span>↗</span></a>
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/sda_fabric_multicast_workflow_manager.py" target="_blank" rel="noopener noreferrer"><code>sda_fabric_multicast_workflow_manager</code><span>↗</span></a>
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/sda_fabric_sites_zones_workflow_manager.py" target="_blank" rel="noopener noreferrer"><code>sda_fabric_sites_zones_workflow_manager</code><span>↗</span></a>
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/sda_fabric_transits_workflow_manager.py" target="_blank" rel="noopener noreferrer"><code>sda_fabric_transits_workflow_manager</code><span>↗</span></a>
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/sda_fabric_virtual_networks_workflow_manager.py" target="_blank" rel="noopener noreferrer"><code>sda_fabric_virtual_networks_workflow_manager</code><span>↗</span></a>
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/sda_host_port_onboarding_workflow_manager.py" target="_blank" rel="noopener noreferrer"><code>sda_host_port_onboarding_workflow_manager</code><span>↗</span></a>
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/site_workflow_manager.py" target="_blank" rel="noopener noreferrer"><code>site_workflow_manager</code><span>↗</span></a>
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/swim_workflow_manager.py" target="_blank" rel="noopener noreferrer"><code>swim_workflow_manager</code><span>↗</span></a>
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/tags_workflow_manager.py" target="_blank" rel="noopener noreferrer"><code>tags_workflow_manager</code><span>↗</span></a>
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/template_workflow_manager.py" target="_blank" rel="noopener noreferrer"><code>template_workflow_manager</code><span>↗</span></a>
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/user_role_workflow_manager.py" target="_blank" rel="noopener noreferrer"><code>user_role_workflow_manager</code><span>↗</span></a>
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/wired_campus_automation_workflow_manager.py" target="_blank" rel="noopener noreferrer"><code>wired_campus_automation_workflow_manager</code><span>↗</span></a>
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/wireless_design_workflow_manager.py" target="_blank" rel="noopener noreferrer"><code>wireless_design_workflow_manager</code><span>↗</span></a>
+            </div>
+            <p class="catalog-empty" id="workflow-search-empty" hidden>No workflow managers match that search.</p>
+          </details>
+        </div>
+      </section>
+
+      <section class="docs-section section-tinted" id="api-modules">
+        <div class="content-shell article-shell">
+          <div class="section-intro section-intro-row">
+            <div>
+              <p class="section-kicker">ALL MODULES</p>
+              <h2>Find the exact Catalyst Center operation.</h2>
+              <p>Search every Python module in collection v2.14.0, including API modules, Workflow Managers, information modules, and config generators.</p>
+            </div>
+            <span class="section-count">1,551<span>MODULES</span></span>
+          </div>
+
+          <div class="catalog-search-block catalog-search-block-wide">
+            <label class="catalog-search-label" for="module-search">Search all collection modules</label>
+            <div class="catalog-search-row" role="search" aria-label="Collection module search">
+              <div class="catalog-search-field">
+                <span class="catalog-search-icon" aria-hidden="true">⌕</span>
+                <input id="module-search" type="search" maxlength="100" autocomplete="off" spellcheck="false" placeholder="Try wireless, network device, template, fabric…" aria-controls="api-module-list" aria-describedby="module-search-help module-result-count">
+              </div>
+              <button class="catalog-search-button" id="module-search-button" type="button">Search modules</button>
+              <button class="catalog-clear-button" id="module-search-clear" type="button" hidden>Clear</button>
+            </div>
+            <div class="catalog-search-meta">
+              <span id="module-search-help">Search accepts one or more words from a module name.</span>
+              <span id="module-result-count" role="status" aria-live="polite" aria-atomic="true">Loading module catalog…</span>
+            </div>
+          </div>
+
+          <div class="api-module-grid" id="api-module-list" aria-label="Catalyst Center collection modules"></div>
+          <p class="catalog-empty module-empty" id="module-search-empty" hidden>No collection modules match that search.</p>
+          <div class="catalog-pagination">
+            <button class="load-more-button" id="module-load-more" type="button">Show more modules</button>
+          </div>
+          <noscript>
+            <p class="noscript-note">Module search needs JavaScript. You can still browse the complete modules directory on <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/tree/main/plugins/modules">GitHub</a>.</p>
+          </noscript>
+        </div>
+      </section>
+
+      <section class="docs-section" id="roles-and-playbooks">
+        <div class="content-shell article-shell">
+          <div class="section-intro section-intro-row">
+            <div>
+              <p class="section-kicker">ROLES &amp; VALIDATED CONTENT</p>
+              <h2>Choose the right level of abstraction.</h2>
+              <p>Compare the options, then search every role and Cisco Validated Playbook project included with collection v2.14.0.</p>
+            </div>
+            <span class="section-count">142<span>CONTENT GUIDES</span></span>
+          </div>
+          <div class="choice-grid">
+            <article>
+              <span class="choice-label">CONTROL</span>
+              <h3>Use a module</h3>
+              <p>Best when you want direct control over task arguments, registration, conditions, and playbook flow.</p>
+            </article>
+            <article>
+              <span class="choice-label">REUSE</span>
+              <h3>Use a role</h3>
+              <p>Best when your team wants shared defaults and a compact interface around a workflow manager.</p>
+            </article>
+            <article>
+              <span class="choice-label">SOLUTION</span>
+              <h3>Start with a CVP</h3>
+              <p>Best when you need an end-to-end use case or a config generator with schemas, example inputs, templates, and documentation.</p>
+            </article>
+          </div>
+
+          <div class="content-library">
+            <div class="content-library-heading">
+              <div>
+                <p class="content-library-kicker">COLLECTION CONTENT LIBRARY</p>
+                <h3>Browse roles and CVPs.</h3>
+              </div>
+              <p><strong>42</strong> validated playbooks <span aria-hidden="true">•</span> <strong>40</strong> operational roles <span aria-hidden="true">•</span> <strong>60</strong> config generators</p>
+            </div>
+
+            <div class="content-filter-tabs" role="group" aria-label="Filter collection content by type">
+              <button class="content-filter-button" type="button" data-content-kind="All" aria-pressed="true">All content <span>142</span></button>
+              <button class="content-filter-button" type="button" data-content-kind="Role" aria-pressed="false">Roles <span>71</span></button>
+              <button class="content-filter-button" type="button" data-content-kind="CVP" aria-pressed="false">CVPs <span>71</span></button>
+            </div>
+
+            <div class="catalog-search-block content-search-block">
+              <label class="catalog-search-label" for="content-search">Search roles and validated content</label>
+              <div class="catalog-search-row" role="search" aria-label="Role and CVP search">
+                <div class="catalog-search-field">
+                  <span class="catalog-search-icon" aria-hidden="true">⌕</span>
+                  <input id="content-search" type="search" maxlength="100" autocomplete="off" spellcheck="false" placeholder="Try wireless, site, discovery, assurance…" aria-controls="content-result-list" aria-describedby="content-search-help content-result-count">
+                </div>
+                <button class="catalog-search-button" id="content-search-button" type="button">Search content</button>
+                <button class="catalog-clear-button" id="content-search-clear" type="button" hidden>Clear</button>
+              </div>
+              <div class="catalog-search-meta">
+                <span id="content-search-help">Search by name, description, family, or category.</span>
+                <span id="content-result-count" role="status" aria-live="polite" aria-atomic="true">Loading content library…</span>
+              </div>
+            </div>
+
+            <div class="content-card-grid" id="content-result-list" aria-label="Catalyst Center roles and validated content"></div>
+            <p class="catalog-empty content-empty" id="content-search-empty" hidden>No roles or CVPs match that search.</p>
+            <div class="catalog-pagination">
+              <button class="load-more-button" id="content-load-more" type="button">Show more content</button>
+            </div>
+            <noscript>
+              <p class="noscript-note">Content search needs JavaScript. You can still browse the collection&rsquo;s <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/tree/main/roles">roles</a> and <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/tree/main/cvp">CVPs</a> on GitHub.</p>
+            </noscript>
+          </div>
+        </div>
+      </section>
+
+      <section class="docs-section section-tinted" id="compatibility">
+        <div class="content-shell article-shell">
+          <div class="section-intro section-intro-row">
+            <div>
+              <p class="section-kicker">COMPATIBILITY</p>
+              <h2>Align the controller, collection, and SDK.</h2>
+              <p>Use the matrix from the collection README as the source of truth before upgrading production automation.</p>
+            </div>
+            <a class="section-link" href="https://github.com/cisco-en-programmability/catalystcenter-ansible#compatibility-matrix" target="_blank" rel="noopener noreferrer">Live matrix <span aria-hidden="true">↗</span></a>
+          </div>
+          <div class="compatibility-table" role="region" aria-label="Selected compatibility examples" tabindex="0">
+            <table>
+              <thead><tr><th>Catalyst Center</th><th>Ansible collection</th><th>Minimum tested SDK</th></tr></thead>
+              <tbody>
+                <tr><td>2.3.7.6</td><td>1.0.0</td><td>2.3.7.6.2</td></tr>
+                <tr><td>3.1.3.0</td><td>2.2.2</td><td>3.1.3.0.1</td></tr>
+                <tr><td>3.1.6.0</td><td>2.10.2</td><td>3.1.3.6.x</td></tr>
+                <tr><td>3.2.3.0</td><td>2.11.0</td><td>3.2.3.0.x</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="table-note">Later compatible SDK releases may work. Confirm the collection README and release notes for your exact environment.</p>
+        </div>
+      </section>
+
+      <section class="docs-section section-deep" id="resources">
+        <div class="content-shell article-shell">
+          <div class="section-intro section-intro-light section-intro-row">
+            <div>
+              <p class="section-kicker">CURATED RESOURCES</p>
+              <h2>Go deeper with primary sources.</h2>
+              <p>Official documentation, reference implementations, whitepapers, and recorded sessions for the next step.</p>
+            </div>
+            <span class="review-date">LINKS REVIEWED<br><strong>02 NOV 2026</strong></span>
+          </div>
+
+          <div class="resource-columns">
+            <div class="resource-column">
+              <h3><span>01</span> Documentation &amp; source</h3>
+              <a href="https://docs.ansible.com/projects/ansible/latest/getting_started/index.html" target="_blank" rel="noopener noreferrer"><div><strong>Ansible: Getting started</strong><small>Concepts, inventory, and first playbook</small></div><span>↗</span></a>
+              <a href="https://developer.cisco.com/docs/catalyst-center/" target="_blank" rel="noopener noreferrer"><div><strong>Catalyst Center API overview</strong><small>Intent APIs, integrations, and sandboxes</small></div><span>↗</span></a>
+              <a href="https://github.com/cisco-en-programmability/catalystcentersdk" target="_blank" rel="noopener noreferrer"><div><strong>Catalyst Center Python SDK</strong><small>Source, examples, and release history</small></div><span>↗</span></a>
+              <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible" target="_blank" rel="noopener noreferrer"><div><strong>Catalyst Center Ansible collection</strong><small>Modules, roles, playbooks, and guides</small></div><span>↗</span></a>
+            </div>
+            <div class="resource-column">
+              <h3><span>02</span> Whitepapers &amp; learning</h3>
+              <a href="https://www.cisco.com/c/en/us/products/collateral/networking/catalyst-center/catalyst-center-wireless-automation-onm-wp.pdf" target="_blank" rel="noopener noreferrer"><div><strong>Wireless automation whitepaper</strong><small>Design, provisioning, PnP, and operations</small></div><span>↗</span></a>
+              <a href="https://www.cisco.com/c/en/us/products/cloud-systems-management/dna-center/white-paper-listing.html" target="_blank" rel="noopener noreferrer"><div><strong>Catalyst Center whitepaper library</strong><small>Cisco product and architecture papers</small></div><span>↗</span></a>
+              <a href="https://www.youtube.com/watch?v=F5zqvWLEX54" target="_blank" rel="noopener noreferrer"><div><strong>Ansible workflows with Catalyst Center</strong><small>Recorded Cisco DevNet session</small></div><span>↗</span></a>
+              <a href="https://devnetsandbox.cisco.com/DevNet/catalog/Catalyst-Center-Always-On" target="_blank" rel="noopener noreferrer"><div><strong>DevNet Always-On Sandbox</strong><small>Practice API and SDK calls in a lab</small></div><span>↗</span></a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="content-shell">
+        <div>
+          <strong>Catalyst Center Ansible Field Guide</strong>
+          <p>A community documentation prototype for practical network automation.</p>
+        </div>
+        <nav aria-label="Footer navigation">
+          <a href="#introduction">Back to top ↑</a>
+          <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/issues" target="_blank" rel="noopener noreferrer">Report an issue ↗</a>
+        </nav>
+      </div>
+    </footer>
+  </div>
+  <script src="assets/content-catalog.js" defer></script>
+  <script src="assets/catalog-search.js" defer></script>
+</body>
+</html>
